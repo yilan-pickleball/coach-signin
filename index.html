@@ -29,12 +29,35 @@
       </div>
 
       <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="courseName">
+          課程名稱
+        </label>
+        <!-- 改用 select 標籤，並套用 Tailwind 的背景色 bg-white 確保下拉選單樣式正常 -->
+        <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white" id="courseName" required>
+          <!-- value 為空字串，且設定 disabled selected 作為預設提示語 -->
+          <option value="" disabled selected>請選擇課程名稱</option>
+          
+          <!-- 👇 您可以在下方自由增減、修改 value 與顯示的文字 👇 -->
+          <option value="平日晚間初階團課">平日晚間初階團課</option>
+          <option value="週末進階家教班">週末進階家教班</option>
+          <option value="兒童匹克球體驗營">兒童匹克球體驗營</option>
+          <option value="企業包班">企業包班</option>
+        </select>
+      </div>
+      <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="location">
           授課地點
         </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location" type="text" value="宜蘭" required>
+        <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white" id="location" required>
+          <option value="" disabled selected>請選擇授課地點</option>
+          
+          <!-- 👇 您可以在下方自由增減、修改地點 👇 -->
+          <option value="宜蘭運動公園">宜蘭運動公園</option>
+          <option value="室內專屬球館">室內專屬球館</option>
+          <option value="其他 (請見備註)">其他 (請見備註)</option>
+        </select>
       </div>
-      
+           
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="memo">
           備註 (選填)
@@ -103,7 +126,6 @@
           msgDiv.innerText = "簽到成功！";
           msgDiv.className = "mt-4 text-center text-green-500 font-bold";
           document.getElementById('signInForm').reset();
-          document.getElementById('location').value = "宜蘭"; // 重置後維持主要活動區域預設值
         } else {
           msgDiv.innerText = "簽到失敗：" + result.message;
           msgDiv.className = "mt-4 text-center text-red-500 font-bold";
