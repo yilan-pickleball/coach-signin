@@ -14,21 +14,8 @@
     <div id="loading" class="text-center text-gray-500 mb-4">系統載入中...</div>
 
     <form id="signInForm" class="hidden">
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="courseName">
-          課程名稱
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="courseName" type="text" required placeholder="例如：週二晚間團課">
-      </div>
 
-      <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="studentCount">
-          學員人數
-        </label>
-        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="studentCount" type="number" min="1" required placeholder="請輸入人數">
-      </div>
-
-      <div class="mb-4">
+           <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="courseName">
           課程名稱
         </label>
@@ -38,12 +25,20 @@
           <option value="" disabled selected>請選擇課程名稱</option>
           
           <!-- 👇 您可以在下方自由增減、修改 value 與顯示的文字 👇 -->
-          <option value="平日晚間初階團課">平日晚間初階團課</option>
-          <option value="週末進階家教班">週末進階家教班</option>
+          <option value="加楓團課(週一)">加楓團課(週一)</option>
+          <option value="愛迪生團課(週四7/9、16、23)">愛迪生團課(週四)</option>
           <option value="兒童匹克球體驗營">兒童匹克球體驗營</option>
           <option value="企業包班">企業包班</option>
         </select>
       </div>
+      
+       <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="studentCount">
+          學員人數
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="studentCount" type="number" min="1" required placeholder="請輸入人數">
+      </div>
+
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="location">
           授課地點
@@ -53,11 +48,17 @@
           
           <!-- 👇 您可以在下方自由增減、修改地點 👇 -->
           <option value="宜蘭運動公園">宜蘭運動公園</option>
-          <option value="室內專屬球館">室內專屬球館</option>
+          <option value="宜蘭國民運動中心">宜蘭國民運動中心</option>
           <option value="其他 (請見備註)">其他 (請見備註)</option>
         </select>
       </div>
            
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="memo">
+          借拍數量 (選填)
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="memo" type="text" placeholder="例如：裝備租借登記">
+      </div>
       <div class="mb-6">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="memo">
           備註 (選填)
