@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>教練專屬簽到系統</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
+    <h2 class="text-2xl font-bold mb-4 text-center text-blue-600">臨時課程簽到</h2>
+
+    <div id="loading" class="text-center text-gray-500 mb-4">系統載入中...</div>
+
+    <form id="signInForm" class="hidden">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="courseName">
+          課程名稱
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="courseName" type="text" required placeholder="例如：週二晚間團課">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="studentCount">
+          學員人數
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="studentCount" type="number" min="1" required placeholder="請輸入人數">
+      </div>
+
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="location">
+          授課地點
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="location" type="text" value="宜蘭" required>
+      </div>
+      
+      <div class="mb-6">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="memo">
+          備註 (選填)
+        </label>
+        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="memo" type="text" placeholder="例如：裝備租借登記">
+      </div>
+
+      <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full focus:outline-none focus:shadow-outline">
+        確認簽到
+      </button>
+    </form>
+
+    <div id="message" class="mt-4 text-center font-bold"></div>
+  </div>
+
+  <script>
+    // 請於下方填寫您的 LIFF ID 與 GAS Web App URL
+    const LIFF_ID = "您的_LIFF_ID";
+    const GAS_URL = "您的_GAS_WEB_APP_URL";
+    let userLineId = "";
+
+    async function initializeLiff() {
+      try {
+        await liff.init({ liffId: LIFF_ID });
+        if (!liff.isLoggedIn()) {
+          liff.login();
+        } else {
+          const profile = await liff.getProfile();
+          userLineId = profile.userId;
+          document.getElementById('loading').classList.add('hidden');
+          document.getElementById('signInForm').classList.remove('hidden');
+        }
+      } catch (err) {
+        console.error('LIFF 初始化失敗', err);
+        document.getElementById('loading').innerText = "載入失敗，請確認在 LINE 中開啟。";
+      }
+    }
+
+    document.getElementById('signInForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const courseName = document.getElementById('courseName').value;
+      const studentCount = document.getElementById('studentCount').value;
+      const location = document.getElementById('location').value;
+      const memo = document.getElementById('memo').value;
+      const msgDiv = document.getElementById('message');
+
+      msgDiv.innerText = "簽到資料傳送中...";
+      msgDiv.className = "mt-4 text-center text-blue-500 font-bold";
+
+      try {
+        const response = await fetch(GAS_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            lineId: userLineId,
+            courseName: courseName,
+            studentCount: studentCount,
+            location: location,
+            memo: memo
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          msgDiv.innerText = "簽到成功！";
+          msgDiv.className = "mt-4 text-center text-green-500 font-bold";
+          document.getElementById('signInForm').reset();
+          document.getElementById('location').value = "宜蘭"; // 重置後維持主要活動區域預設值
+        } else {
+          msgDiv.innerText = "簽到失敗：" + result.message;
+          msgDiv.className = "mt-4 text-center text-red-500 font-bold";
+        }
+      } catch (error) {
+        msgDiv.innerText = "連線發生錯誤！";
+        msgDiv.className = "mt-4 text-center text-red-500 font-bold";
+      }
+    });
+
+    initializeLiff();
+  </script>
+</body>
+</html>
