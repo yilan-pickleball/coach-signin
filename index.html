@@ -30,6 +30,23 @@
         </select>
       </div>
       
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="coachName">
+          教練名稱
+        </label>
+        <select class="shadow border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-white" id="coachName" required>
+          <option value="" disabled selected>請選擇教練</option>
+          <!-- 👇 依需求自行增減教練名稱 👇 -->
+          <option value="黃嘉文">黃嘉文</option>
+          <option value="黃楷郁">黃楷郁</option>
+          <option value="林永福">林永福</option>
+          <option value="張宇然">張宇然</option>
+          <option value="游岳臻">游岳臻</option>
+          <option value="杜和益">杜和益</option>
+          <option value="陳俊榮">陳俊榮</option>
+        </select>
+      </div>
+
        <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="studentCount">
           學員人數
@@ -103,6 +120,7 @@
       const location = document.getElementById('location').value;
       const racketCount = document.getElementById('racketCount').value;
       const memo = document.getElementById('memo').value;
+      const coachName = document.getElementById('coachName').value; // 新增這行
       const msgDiv = document.getElementById('message');
 
       msgDiv.innerText = "簽到資料傳送中...";
@@ -113,6 +131,7 @@
           method: 'POST',
           body: JSON.stringify({
             lineId: userLineId,
+            coachName: coachName,
             courseName: courseName,
             studentCount: studentCount,
             location: location,
